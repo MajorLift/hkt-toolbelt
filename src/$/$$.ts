@@ -15,6 +15,7 @@ import { Kind, List } from "..";
  * then join the resulting list. We would write this as the following, using
  * `Kind.Pipe`.
  *
+ * @see {@link Kind.Pipe}
  * `Kind.Pipe` is a type-level function that takes a tuple of type-level
  * functions and composes them from left to right.
  *
@@ -80,6 +81,7 @@ import { Kind, List } from "..";
  * the (N + 1)th input. If this is not the case, `$$` will return the `never`
  * type.
  *
+ * @see {@link Kind.InputOf} {@link Kind.OutputOf}
  * If you receive a `never` type, it can be helpful to use the `Kind.InputOf`
  * and `Kind.OutputOf` type-level functions to inspect the input and output
  * types of the type-level functions that you are piping together.

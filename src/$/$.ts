@@ -5,6 +5,7 @@ import { Kind, Function } from "..";
  * which takes in a type-level function and an input type, and returns the
  * resultant output type of the type-level function, when applied to the input.
  *
+ * @see {@link Kind.Apply}
  * This is a type-level equivalent of an 'apply' function.
  *
  * `$` operates via partial application. This means that `$` can be used to

@@ -1,9 +1,10 @@
-import { Kind } from "..";
+import { $, $$, Kind } from "..";
 
 /**
  * `$N` is a type-level function that applies a type-level function to a list of
  * arguments.
  *
+ * @see {@link $} {@link $$}
  * This is syntactic sugar for nested `$` applications. In some sense this is
  * the contrapositive of `$$`, in that `$$` pipes a value through a list of
  * functions, while `$N` pipes a list of values through a function.
