@@ -1,4 +1,5 @@
 export * from './at-path'
+export * from './at-paths'
 export * from './at'
 export * from './deep-input-of'
 export * from './deep-map-values'
