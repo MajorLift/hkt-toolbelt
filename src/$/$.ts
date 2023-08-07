@@ -33,7 +33,7 @@ import { Kind, Function } from "..";
  *
  * ## Parameters
  *
- * @param F A type-level function.
+ * @param {Kind.Kind} F A type-level function.
  * @param X The input type to apply the type-level function to.
  *
  * ## Examples

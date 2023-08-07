@@ -51,7 +51,7 @@ import { Kind, List } from "..";
  *
  * ## Parameters
  *
- * @param FX A tuple of type-level functions that will be piped together.
+ * @param {Kind.Kind[]} FX A tuple of type-level functions that will be piped together.
  * @param X The input type that the type-level functions will be applied to.
  *
  * ## Examples
