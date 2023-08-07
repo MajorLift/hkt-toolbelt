@@ -49,17 +49,12 @@ import { Kind, List } from "..";
  * Here, `$$` is being used to pipe `List.Push` and `String.Join` together and
  * then apply them to a list of strings.
  *
- * ## Parameters
- *
- * @param {Kind.Kind[]} FX A tuple of type-level functions that will be piped together.
+ * @param FX A tuple of type-level functions that will be piped together.
  * @param X The input type that the type-level functions will be applied to.
- *
- * ## Examples
  *
  * ### Basic Usage
  *
  * @example
- *
  * Here's a basic example that uses `$$` to apply a type-level function to an
  * input type:
  *

@@ -69,8 +69,6 @@ type _$splice2<
  *
  * Both positive and negative indices are supported for `START`. Negative indices will be normalized into zero-based indices.
  *
- * ## Parameters
- *
  * @param T The input tuple.
  * @param START An integer representing the index at which to start splicing.
  * A negative index counts back from the end of the input tuple.
@@ -81,7 +79,6 @@ type _$splice2<
  * ## Usage
  *
  * @example
- *
  * ```ts
  * import { $, List } from 'hkt-toolbelt';
  *
@@ -149,8 +146,6 @@ interface Splice_T<START extends Number.Number> extends Kind.Kind {
  *
  * Both positive and negative indices are supported for `START`. Negative indices will be normalized into zero-based indices.
  *
- * ## Parameters
- *
  * @param T The input tuple.
  * @param START An integer representing the index at which to start splicing.
  * A negative index counts back from the end of the input tuple.
@@ -161,7 +156,6 @@ interface Splice_T<START extends Number.Number> extends Kind.Kind {
  * ## Usage
  *
  * @example
- *
  * ```ts
  * import { $, List } from 'hkt-toolbelt';
  *

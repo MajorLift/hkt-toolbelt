@@ -7,8 +7,6 @@ import { NaturalNumber, Number, DigitList, Digit, Kind, Type, List } from "..";
  * then `START` and `END`, which respectively specify the inclusive start and exclusive end indices of a slice.
  * Both positive and negative indices are supported, with negative indices being normalized into zero-based indices under the hood.
  * ´´
- * ## Parameters
- *
  * @param T A tuple type.
  * @param START An integer type.
  * @param END An integer type.
@@ -19,7 +17,6 @@ import { NaturalNumber, Number, DigitList, Digit, Kind, Type, List } from "..";
  * ## Basic Usage
  *
  * @example
- *
  * ```ts
  * import { $, List } from 'hkt-toolbelt';
  *
@@ -89,8 +86,6 @@ interface Slice_T<START extends Number.Number> extends Kind.Kind {
  * and `T`, the tuple that is to be sliced.
  * Both positive and negative indices are supported, with negative indices being normalized into zero-based indices under the hood.
  *
- * ## Parameters
- *
  * @param START An integer type.
  * @param END An integer type.
  * A negative index counts back from the end of the input tuple.
@@ -103,7 +98,6 @@ interface Slice_T<START extends Number.Number> extends Kind.Kind {
  * We apply `Slice` to `START`, `END`, and `T` respectively using the `$` type-level applicator.
  *
  * @example
- *
  * ```ts
  * import { $, List } from 'hkt-toolbelt';
  *

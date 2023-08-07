@@ -6,8 +6,6 @@ import { Type, Kind, List } from "..";
  * It takes in two arguments:
  * `T`, the tuple to concatenate onto, and `U`, the tuple to concatenate.
  *
- * ## Parameters
- *
  * @param T A tuple type.
  * @param U A tuple type, or an unknown.
  * If `U` is not a tuple type, it will be pushed into `T` as its new last element.
@@ -15,7 +13,6 @@ import { Type, Kind, List } from "..";
  * ## Basic Usage
  *
  * @example
- *
  * ```ts
  * import { $, List } from 'hkt-toolbelt';
  *
@@ -25,7 +22,6 @@ import { Type, Kind, List } from "..";
  * ## Advanced Usage
  *
  * @example
- *
  * Concatenating to a tuple with a rest parameter results in a tuple that contains the concatenated tuple.
  *
  * ```ts
@@ -50,8 +46,6 @@ interface Concat_T<U extends unknown> extends Kind.Kind {
  * It takes in two arguments:
  * `T`, the tuple to concatenate onto, and `U`, the tuple to concatenate.
  *
- * ## Parameters
- *
  * @param T A tuple type.
  * @param U A tuple type, or an unknown.
  * If `U` is not a tuple type, it will be pushed into `T` as its new last element.
@@ -59,7 +53,6 @@ interface Concat_T<U extends unknown> extends Kind.Kind {
  * ## Basic Usage
  *
  * @example
- *
  * ```ts
  * import { $, List } from 'hkt-toolbelt';
  *
@@ -69,7 +62,6 @@ interface Concat_T<U extends unknown> extends Kind.Kind {
  * ## Advanced Usage
  *
  * @example
- *
  * Concatenating to a tuple with a rest parameter results in a tuple that contains the concatenated tuple.
  *
  * ```ts

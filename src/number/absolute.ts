@@ -5,12 +5,9 @@ import { Number, Type, Kind } from "..";
  *
  * It returns `T` if T >= 0, and `-T` if T < 0.
  *
- * ## Parameters
- *
  * @param T A number type.
  *
  * @example
- *
  * ```ts
  * import { Number } from "hkt-toolbelt";
  *
@@ -26,12 +23,9 @@ export type _$absolute<T extends Number.Number> =
  *
  * It returns `T` if T >= 0, and `-T` if T < 0.
  *
- * ## Parameters
- *
  * @param T A number type.
  *
  * @example
- *
  * ```ts
  * import { Number } from "hkt-toolbelt";
  *
