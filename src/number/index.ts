@@ -1,6 +1,7 @@
 export * from './absolute'
 export * from './compare'
 export * from './from-string'
+export * from './is-decimal'
 export * from './is-fractional'
 export * from './is-integer'
 export * from './is-natural'
