@@ -1,0 +1,16 @@
+{
+    "entryPoints": [
+        "./src/*/index.ts"
+    ],
+    "entryPointStrategy": "expand",
+    "out": "./typedoc",
+    "exclude": [
+        "**/*.spec.ts",
+    ],
+    "visibilityFilters": {
+        "protected": false,
+        "private": false,
+        "inherited": false,
+        "external": false
+    }
+}
