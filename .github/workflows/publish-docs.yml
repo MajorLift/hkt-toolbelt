@@ -19,11 +19,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
       - name: Install npm dependencies
-        run: yarn --immutable
+        run: npm install
       - name: Run build script
-        run: yarn build:docs
+        run: npm run build:docs
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
