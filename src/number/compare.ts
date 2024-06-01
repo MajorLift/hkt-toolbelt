@@ -66,10 +66,10 @@ type _$compare2<
         : DigitList._$compare<A_INT, B_INT>
       : 1
     : B_SGN extends '+'
-    ? -1
-    : A_INT extends B_INT
-    ? _$decimalCompare<B_DEC, A_DEC>
-    : DigitList._$compare<B_INT, A_INT>
+      ? -1
+      : A_INT extends B_INT
+        ? _$decimalCompare<B_DEC, A_DEC>
+        : DigitList._$compare<B_INT, A_INT>
 > = RESULT
 
 type _$decimalCompare<
@@ -113,10 +113,10 @@ type _$decimalCompare<
       ? 0
       : -1
     : B extends []
-    ? 1
-    : COMP extends 0
-    ? _$decimalCompare<A_NEXT, B_NEXT>
-    : COMP
+      ? 1
+      : COMP extends 0
+        ? _$decimalCompare<A_NEXT, B_NEXT>
+        : COMP
 > = RESULT
 
 /**
@@ -125,8 +125,8 @@ type _$decimalCompare<
  * The result will be 1 if `A` is greater than `B`,
  * 0 if `A` is equal to `B`, and -1 if `A` is less than `B`.
  *
- * @param A - A number type.
- * @param B - A number type.
+ * @template A - A number type.
+ * @template B - A number type.
  *
  * @example
  * For example, we can use `_$compare` to compare two numbers.
@@ -164,8 +164,8 @@ interface Compare_T<X extends Number.Number> extends Kind.Kind {
  * The result will be 1 if `A` is greater than `B`,
  * 0 if `A` is equal to `B`, and -1 if `A` is less than `B`.
  *
- * @param A - A number type.
- * @param B - A number type.
+ * @template A - A number type.
+ * @template B - A number type.
  *
  * @example
  * For example, we can use `Compare` to compare two numbers.

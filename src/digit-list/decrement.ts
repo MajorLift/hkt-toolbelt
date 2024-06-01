@@ -78,8 +78,8 @@ type _$decrement2<
 > = A extends '0'[]
   ? FINAL_RESULT
   : CARRY extends '0'
-  ? SHORT_CIRCUIT
-  : _$decrement2<NEXT_A, NEXT_CARRY, NEXT_OUTPUT>
+    ? SHORT_CIRCUIT
+    : _$decrement2<NEXT_A, NEXT_CARRY, NEXT_OUTPUT>
 
 /**
  * `_$decrement` is a type-level function that takes in a digit list `A` and
@@ -87,7 +87,7 @@ type _$decrement2<
  * digit list by 1. If the input digit list is empty or represents zero, the
  * result will be a digit list representing zero.
  *
- * @param A - A digit list type.
+ * @template A - A digit list type.
  *
  * @example
  * For example, we can use `_$decrement` to decrement a digit list representing
@@ -122,7 +122,7 @@ export type _$decrement<A extends DigitList.DigitList> = DigitList._$trim<
  * digit list by 1. If the input digit list is empty or represents zero, the
  * result will be a digit list representing zero.
  *
- * @param A - A digit list type.
+ * @template A - A digit list type.
  *
  * @example
  * For example, we can use `Decrement` to decrement a digit list representing

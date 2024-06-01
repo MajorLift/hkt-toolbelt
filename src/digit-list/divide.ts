@@ -67,10 +67,9 @@ type _$divide2<
    * For efficiency, we use the remainder from the sub-division step, which is
    * equivalent to the remainder from the subtraction step.
    */
-  NEXT_REMAINDER extends DigitList.DigitList = DigitList._$divideBySubtraction<
-    ARROW_DOWN,
-    B,
-    'MODULO'
+  NEXT_REMAINDER extends DigitList.DigitList = Type._$cast<
+    DigitList._$divideBySubtraction<ARROW_DOWN, B, 'MODULO'>,
+    DigitList.DigitList
   >,
   /**
    * We have reached the end of the division when the next dividend is empty.
@@ -92,9 +91,9 @@ type _$divide2<
  * which can be either "DIVIDE" or "MODULO". It checks if the divisor is 0 or 1 and returns the appropriate result.
  * If the divisor is neither 0 nor 1, it calls the `_$divide2` function to perform the division.
  *
- * @param A - A digit list representing a number to divide.
- * @param B - A digit list representing a number to divide by.
- * @param OPERATION - A string type representing the operation to be performed. Can be either "DIVIDE" or "MODULO".
+ * @template A - A digit list representing a number to divide.
+ * @template B - A digit list representing a number to divide by.
+ * @template OPERATION - A string type representing the operation to be performed. Can be either "DIVIDE" or "MODULO".
  *
  * @example
  * For example, we can use `_$divide` to divide a digit list representing the number 10 by 2:
@@ -121,10 +120,10 @@ export type _$divide<
 > = B extends [Digit.Zero]
   ? [Digit.Zero]
   : B extends ['1']
-  ? OPERATION extends 'DIVIDE'
-    ? A
-    : [Digit.Zero]
-  : _$divide2<A, B, OPERATION>
+    ? OPERATION extends 'DIVIDE'
+      ? A
+      : [Digit.Zero]
+    : _$divide2<A, B, OPERATION>
 
 interface Divide_T<A extends DigitList.DigitList> extends Kind.Kind {
   f(x: Type._$cast<this[Kind._], DigitList.DigitList>): _$divide<A, typeof x>
