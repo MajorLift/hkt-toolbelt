@@ -6,10 +6,12 @@ import { NaturalNumber, Number, DigitList, Digit, Kind, Type, List } from '..'
  * It takes in three arguments: first, `T`, the tuple that is to be sliced,
  * then `START` and `END`, which respectively specify the inclusive start and exclusive end indices of a slice.
  * Both positive and negative indices are supported, with negative indices being normalized into zero-based indices under the hood.
- * ´´
- * @param T - A tuple type.
- * @param START - An integer type.
- * @param END - An integer type.
+ *
+ * @template T - A tuple type.
+ * @template START - An integer type.
+ * @template END - An integer type.
+ * @returns A list of types.
+ *
  * A negative index counts back from the end of the input tuple.
  * If `START < 0`, `START + T["length"]` is used.
  * If `END < 0`, `END + T["length"]` is used.
@@ -17,20 +19,14 @@ import { NaturalNumber, Number, DigitList, Digit, Kind, Type, List } from '..'
  * ## Basic Usage
  *
  * @example
- * ```ts
- * import { $, List } from 'hkt-toolbelt';
  *
  * type MyList = ['a', 'b', 'c', 'd', 'e'];
- *
  * // Slice the first two elements of `MyList`.
  * type Result1 = List._$slice<MyList, 0, 2>; // ['a', 'b']
- *
  * // Slice the last two elements of `MyList`.
  * type Result2 = List._$slice<MyList, -2, 0>; // ['d', 'e']
- *
  * // Slice the middle three elements of `MyList`.
  * type Result3 = List._$slice<MyList, 1, -1>; // ['b', 'c', 'd']
- * ```
  *
  * ## Edge Cases
  *
@@ -55,8 +51,8 @@ export type _$slice<
     DigitList.DigitList = Number._$isNatural<START> extends true
     ? START_ABS
     : DigitList._$compare<T_LENGTH, START_ABS> extends -1
-    ? [Digit.Zero]
-    : DigitList._$subtract<T_LENGTH, START_ABS>,
+      ? [Digit.Zero]
+      : DigitList._$subtract<T_LENGTH, START_ABS>,
   POP_NORM extends DigitList.DigitList = Number._$isNatural<END> extends true
     ? DigitList._$compare<T_LENGTH, END_ABS> extends -1
       ? [Digit.Zero]
@@ -85,32 +81,26 @@ interface Slice_T<START extends Number.Number> extends Kind.Kind {
  * and `T`, the tuple that is to be sliced.
  * Both positive and negative indices are supported, with negative indices being normalized into zero-based indices under the hood.
  *
- * @param START - An integer type.
- * @param END - An integer type.
+ * @template START - An integer type.
+ * @template END - An integer type.
  * A negative index counts back from the end of the input tuple.
  * If `START < 0`, `START + T["length"]` is used.
  * If `END < 0`, `END + T["length"]` is used.
- * @param T - A tuple type.
+ * @template T - A tuple type.
+ * @returns A list of types.
  *
  * ## Basic Usage
  *
  * We apply `Slice` to `START`, `END`, and `T` respectively using the `$` type-level applicator.
  *
  * @example
- * ```ts
- * import { $, List } from 'hkt-toolbelt';
- *
  * type MyList = ['a', 'b', 'c', 'd', 'e'];
- *
  * // Slice the first two elements of `MyList`.
  * type Result1 = $<$<$<List.Slice, 0>, 2>, MyList>; // ['a', 'b']
- *
  * // Slice the last two elements of `MyList`.
  * type Result2 = $<$<$<List.Slice, -2>, 0>, MyList>; // ['d', 'e']
- *
  * // Slice the middle three elements of `MyList`.
  * type Result3 = $<$<$<List.Slice, 1>, -1>, MyList>; // ['b', 'c', 'd']
- * ```
  *
  * ## Edge Cases
  *

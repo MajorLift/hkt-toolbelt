@@ -5,7 +5,7 @@ import { Number, Type, Kind } from '..'
  *
  * It returns `T` if T >= 0, and `-T` if T < 0.
  *
- * @param T - A number type.
+ * @template T - A number type.
  *
  * @example
  * ```ts
@@ -16,14 +16,14 @@ import { Number, Type, Kind } from '..'
  * ```
  */
 export type _$absolute<T extends Number.Number> =
-  `${T}` extends `-${infer U extends number}` ? U : T
+  `${T}` extends `-${infer U extends number | bigint}` ? U : T
 
 /**
  * `Absolute` is a type-level function that takes a number type `T`, and returns its absolute value.
  *
  * It returns `T` if T >= 0, and `-T` if T < 0.
  *
- * @param T - A number type.
+ * @template T - A number type.
  *
  * @example
  * ```ts

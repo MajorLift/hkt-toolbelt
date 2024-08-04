@@ -5,7 +5,7 @@ import { Number, Type, Kind } from '..'
  *
  * It returns `-T` if T >= 0, and `T` if T < 0.
  *
- * @param T - A number type.
+ * @template T - A number type.
  *
  * @example
  * ```ts
@@ -16,12 +16,12 @@ import { Number, Type, Kind } from '..'
  * ```
  */
 export type _$negate<
-  T extends Number.Number,
-  RESULT extends Number.Number = T extends 0
+  T,
+  RESULT = T extends 0
     ? 0
-    : `${T}` extends `-${infer U extends number}`
-    ? U
-    : Number._$fromString<`-${T}`>
+    : `${T & Number.Number}` extends `-${infer U extends number}`
+      ? U
+      : Number._$fromString<`-${T & Number.Number}`>
 > = RESULT
 
 /**
@@ -29,7 +29,7 @@ export type _$negate<
  *
  * It returns `-T` if T >= 0, and `T` if T < 0.
  *
- * @param T - A number type.
+ * @template T - A number type.
  *
  * @example
  * ```ts
