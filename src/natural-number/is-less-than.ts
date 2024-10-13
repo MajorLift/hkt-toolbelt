@@ -8,8 +8,9 @@ import { Number, NaturalNumber, Kind, Type } from '..'
  * This function works by comparing the ordinal values of `A` and `B`. If `B`
  * has a lower ordinal value than `A`, then `B` is less than `A`.
  *
- * @param A - The number to compare against.
- * @param B - The number to compare.
+ * @template {Number.Numer} A - A natural number to compare against.
+ * @template {Number.Numer} B - A natural number to compare.
+ * @returns {boolean}
  */
 export type _$isLessThan<
   /**
@@ -37,14 +38,13 @@ interface IsLessThan_T<A extends Number.Number> extends Kind.Kind {
  * types, `A` and `B`, and returns a boolean indicating whether `B` is less
  * than `A`.
  *
- * @param A - The number to compare against.
- * @param B - The number to evaluate.
+ * @template {Number.Number} A - A natural number to compare against.
+ * @template {Number.Number} B - A natural number to compare.
+ * @returns {boolean}
  *
  * The parameters are ordered such that `IsLessThan` can be partially applied
  * in a coherent manner. That is, we can apply `IsLessThan` to `3`, and have a
  * function `IsLessThanThree`.
- *
- * ## Usage Examples
  *
  * @example
  * For example, we can use `IsLessThan` to determine whether a natural number is
@@ -82,3 +82,20 @@ interface IsLessThan_T<A extends Number.Number> extends Kind.Kind {
 export interface IsLessThan extends Kind.Kind {
   f(x: Type._$cast<this[Kind._], Number.Number>): IsLessThan_T<typeof x>
 }
+
+/**
+ * Given two numbers, return whether the second number is less than the first.
+ *
+ * @param {number} a - The first number.
+ * @param {number} b - The second number.
+ *
+ * @example
+ * ```ts
+ * import { NaturalNumber } from "hkt-toolbelt";
+ *
+ * const result = NaturalNumber.isLessThan(3)(2)
+ * //    ^? true
+ * ```
+ */
+export const isLessThan = ((a: number) => (b: number) =>
+  b < a) as Kind._$reify<IsLessThan>

@@ -3,6 +3,7 @@
     "incremental": true,
     // "tsBuildInfoFile": ".tsbuildinfo",
     "target": "es2020",
+    "lib": ["es2021"],
     "module": "commonjs",
     "paths": {
       "hkt-toolbelt": [
@@ -21,11 +22,17 @@
     "strict": true
   },
   "include": [
-    "src/**/*.spec.ts"
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
   ],
   "exclude": [
     "src/**/*.stress.spec.ts",
     "node_modules",
-    "prompts"
+    "dist",
+    "docs",
+    "pkg",
+    "prompts",
+    "scaffolding",
+    "style-guide"
   ]
 }

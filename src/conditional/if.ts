@@ -1,4 +1,4 @@
-import { $, Type, Kind } from '..'
+import { $, Kind, Type, Function } from '..'
 
 /**
  * `_$if` is a type-level function that evaluates a predicate `Predicate` with
@@ -8,19 +8,20 @@ import { $, Type, Kind } from '..'
  *
  * This can be thought of as a type-level ternary operator.
  *
- * @param Predicate - A type-level function of the form `(x: never) => boolean`.
- * @param Then - A type-level function that is applied on the truthy branch.
- * @param Else - A type-level function that is applied on the falsy branch.
- * @param X - The input to the predicate function.
+ * @template Predicate - A type-level function of the form `(x: never) => boolean`.
+ * @template Then - A type-level function that is applied on the truthy branch.
+ * @template Else - A type-level function that is applied on the falsy branch.
+ * @template X - The input to the predicate function.
  */
 export type _$if<
   Predicate extends Kind.Kind<(x: never) => boolean>,
   Then extends Kind.Kind,
   Else extends Kind.Kind,
   X extends Kind._$inputOf<Predicate>
-> = $<Predicate, X> extends true
-  ? $<Then, Type._$cast<X, Kind._$inputOf<Then>>>
-  : $<Else, Type._$cast<X, Kind._$inputOf<Else>>>
+> =
+  $<Predicate, X> extends true
+    ? $<Then, Type._$cast<X, Kind._$inputOf<Then>>>
+    : $<Else, Type._$cast<X, Kind._$inputOf<Else>>>
 
 interface If_T3<
   Predicate extends Kind.Kind<(x: never) => boolean>,
@@ -54,12 +55,12 @@ interface If_T1<Predicate extends Kind.Kind<(x: never) => boolean>>
  *
  * This can be thought of as a type-level ternary operator.
  *
- * @param Predicate - A type-level function of the form `(x: never) => boolean`.
- * @param Then - A type-level function that is applied when the predicate returns
+ * @template {Kind} Predicate - A type-level function that returns a boolean.
+ * @template {Kind} Then - A type-level function that is applied when the predicate returns
  * `true`.
- * @param Else - A type-level function that is applied when the predicate returns
+ * @template {Kind} Else - A type-level function that is applied when the predicate returns
  * `false`.
- * @param X - The input to the predicate function.
+ * @template {InputOf<Predicate>} X - The input to the predicate function.
  *
  * ## Usage Examples
  *
@@ -120,3 +121,34 @@ export interface If extends Kind.Kind {
     x: Type._$cast<this[Kind._], Kind.Kind<(x: never) => boolean>>
   ): If_T1<typeof x>
 }
+
+/**
+ * Given a predicate, a true branch, and a false branch, return the result of
+ * the if statement.
+ *
+ * @param {Kind.Kind<(x: never) => boolean>} p - The predicate to evaluate.
+ * @param {Kind.Kind} thenClause - The branch to evaluate if the predicate is true.
+ * @param {Kind.Kind} elseClause - The branch to evaluate if the predicate is false.
+ * @param {unknown} x - The input to the predicate.
+ *
+ * @example
+ * ```ts
+ * import { Conditional } from "hkt-toolbelt";
+ *
+ * const result = Conditional.if(
+ *   Conditional.equals('foo')
+ * )(
+ *   Function.constant('bar')
+ * )(
+ *   Function.identity
+ * )('foo')
+ * //    ^? bar
+ * ```
+ */
+const _if = ((predicate: Function.Function) =>
+  (thenClause: Function.Function) =>
+  (elseClause: Function.Function) =>
+  (x: never) =>
+    predicate(x) ? thenClause(x) : elseClause(x)) as Kind._$reify<If>
+
+export { _if as if }

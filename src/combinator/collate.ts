@@ -1,32 +1,20 @@
-import { Kind, NaturalNumber, Number, Conditional, Type } from '..'
+import { Kind, Type } from '..'
 
-interface _$collate2<
+export interface _$collate2<
   /**
    * The number of arguments to expect.
    */
   N extends number,
   /**
-   * The current argument index.
-   */
-  I extends Number.Number = 0,
-  /**
    * The tuple of arguments applied so far.
    */
-  OUT extends unknown[] = [],
-  /**
-   * The next argument index, which is `I + 1`.
-   */
-  NEXT extends Number.Number = NaturalNumber._$increment<I>,
-  /**
-   * Whether we have reached the end of the list of arguments.
-   */
-  DONE extends boolean = Conditional._$equals<N, NEXT>
+  OUT extends unknown[] = []
 > extends Kind.Kind {
   f(
     x: this[Kind._]
-  ): DONE extends true
+  ): N extends [...OUT, typeof x]['length']
     ? [...OUT, typeof x]
-    : _$collate2<N, NEXT, [...OUT, typeof x]>
+    : _$collate2<N, [...OUT, typeof x]>
 }
 
 /**
@@ -43,7 +31,7 @@ export type _$collate<N extends number> = N extends 0 ? [] : _$collate2<N>
  * applications will return a tuple of length `N`, containing the arguments
  * applied.
  *
- * @param N - The arity of the type-level function to create.
+ * @template {number} N - The arity of the type-level function to create.
  *
  * This is useful for creating type-level functions that are 'variadic' in the
  * sense that they can take in a specified number of arguments.
@@ -65,3 +53,30 @@ export type _$collate<N extends number> = N extends 0 ? [] : _$collate2<N>
 export interface Collate extends Kind.Kind {
   f(x: Type._$cast<this[Kind._], number>): _$collate<typeof x>
 }
+
+/**
+ * Given a number N, take in N curried elements and return a list of N length.
+ *
+ * @param {number} n - The number of elements to collate.
+ *
+ * @example
+ * ```ts
+ * import { List } from "hkt-toolbelt";
+ *
+ * const result = List.collate(2)("foo")("bar")
+ * //    ^? ["foo", "bar"]
+ * ```
+ */
+export const collate = ((n: number) => {
+  const collector =
+    (values: unknown[] = []) =>
+    (value: unknown) => {
+      const newValues = [...values, value]
+      if (newValues.length === n) {
+        return newValues
+      } else {
+        return collector(newValues)
+      }
+    }
+  return collector()
+}) as Kind._$reify<Collate>

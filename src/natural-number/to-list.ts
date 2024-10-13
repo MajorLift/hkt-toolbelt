@@ -13,14 +13,12 @@ import { Type, Number, DigitList, Kind } from '..'
  * // Convert the number 42 into a list of digits:
  * type ListOfDigits = _$toList<42>; // This will be inferred as ['4', '2']
  */
-export type _$toList<
-  S extends Number.Number,
-  O extends string[] = []
-> = Number._$toString<S> extends `${infer Head}${infer Tail}`
-  ? _$toList<Tail, [...O, Head]>
-  : O extends DigitList.DigitList
-  ? O
-  : ['0']
+export type _$toList<S extends Number.Number, O extends string[] = []> =
+  Number._$toString<S> extends `${infer Head}${infer Tail}`
+    ? _$toList<Tail, [...O, Head]>
+    : O extends DigitList.DigitList
+      ? O
+      : ['0']
 
 /**
  * Represents a type-level utility to convert a natural number into a list of its digits.
@@ -41,3 +39,27 @@ export interface ToList extends Kind.Kind {
     x: Type._$cast<this[Kind._], Number.Number>
   ): Number._$isNatural<typeof x> extends true ? _$toList<typeof x> : never
 }
+
+/**
+ * Given a number, convert it to a list of digits.
+ *
+ * @param {number} x - The number to convert to a list of digits.
+ *
+ * @example
+ * ```ts
+ * import { NaturalNumber } from "hkt-toolbelt";
+ *
+ * const result = NaturalNumber.toList(42)
+ * //    ^? ['4', '2']
+ * ```
+ */
+export const toList = ((x: number) => {
+  const digits: string[] = []
+
+  while (x > 0) {
+    digits.push(`${x % 10}`)
+    x = Math.floor(x / 10)
+  }
+
+  return digits.reverse()
+}) as Kind._$reify<ToList>

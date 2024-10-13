@@ -5,13 +5,10 @@ interface Constant_T<X> extends Kind.Kind {
 }
 
 /**
- * `Constant` is a type-level function that returns a constant value regardless
- * of its input.
+ * `Constant` is a type-level function that constructs a type-level function
+ * which always returns the given value, regardless of input.
  *
- * It ignores its argument and always returns the configured constant value.
- *
- * @param T - The constant value to return.
- * @param X - The input type. This is ignored.
+ * @template T - The constant value to return.
  *
  * @returns The configured constant value T.
  *
@@ -28,3 +25,19 @@ interface Constant_T<X> extends Kind.Kind {
 export interface Constant extends Kind.Kind {
   f(x: this[Kind._]): Constant_T<typeof x>
 }
+
+/**
+ * Given a value, form a constant function that always returns that value.
+ *
+ * @param {unknown} x - The value to return.
+ *
+ * @example
+ * ```ts
+ * import { Function } from "hkt-toolbelt";
+ *
+ * const result = Function.constant('foo')('ignored')
+ * //    ^? foo
+ * ```
+ */
+export const constant = ((x: unknown) => (_y?: never) =>
+  x) as Kind._$reify<Constant>

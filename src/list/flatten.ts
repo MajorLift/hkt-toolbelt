@@ -3,17 +3,12 @@ import { Kind, List, Type } from '..'
 /**
  * `_$flatten` is a type-level function that completely flattens a tuple by recursively concatenating all nested elements.
  *
- * @param T - The input tuple.
+ * @template T - The input tuple.
+ * @returns A single depth-level list of types.
  *
  * @example
- * ```ts
- * import { $, List } from 'hkt-toolbelt';
- *
  * type MyList = [0, [1, [2, [3, [4]]]]]
- *
  * type Result = List._$flatten<MyList> // [0, 1, 2, 3, 4]
- * ```
- *
  */
 export type _$flatten<
   T extends unknown[],
@@ -27,18 +22,40 @@ export type _$flatten<
 /**
  * `Flatten` is a type-level function that completely flattens a tuple by recursively concatenating all nested elements.
  *
- * @param T - The input tuple.
+ * @template T - The input tuple.
+ * @returns A single depth-level list of types.
  *
  * @example
- * ```ts
- * import { $, List } from 'hkt-toolbelt';
- *
  * type MyList = [0, [1, [2, [3, [4]]]]]
- *
  * type Result = $<List.Flatten, MyList> // [0, 1, 2, 3, 4]
- * ```
- *
  */
 export interface Flatten extends Kind.Kind {
   f(x: Type._$cast<this[Kind._], unknown[]>): _$flatten<typeof x>
 }
+
+/**
+ * Given a list, flatten the list.
+ *
+ * @param {unknown[]} x - The list to flatten.
+ *
+ * @example
+ * ```ts
+ * import { List } from "hkt-toolbelt";
+ *
+ * const result = List.flatten([[1, 2], [3, 4]])
+ * //    ^? [1, 2, 3, 4]
+ * ```
+ */
+export const flatten = ((x: unknown[]) => {
+  const result: unknown[] = []
+
+  for (const element of x) {
+    if (Array.isArray(element)) {
+      result.push(...flatten(element))
+    } else {
+      result.push(element)
+    }
+  }
+
+  return result
+}) as Kind._$reify<Flatten>

@@ -1,4 +1,4 @@
-import { Type, List, Kind } from '..'
+import { $, Function, Kind, List, Type } from '..'
 
 /**
  * `_$pipe` is a type-level function that allows users to compose
@@ -6,8 +6,8 @@ import { Type, List, Kind } from '..'
  * composes the functions in its input list from left to right, and
  * and applies the resulting type-level function to the second input type.
  *
- * @param {Kind.Kind[]} FX - a tuple of type-level functions
- * @param X - a type to which a `Kind` can be applied
+ * @template {Kind.Kind[]} FX - a tuple of type-level functions
+ * @template X - a type to which a `Kind` can be applied
  *
  * @see {@link Kind._$compose}
  * The functionality of `_$pipe` is identical to `Kind._$compose`
@@ -29,12 +29,16 @@ import { Type, List, Kind } from '..'
  * and `Kind.OutputOf` type-level functions to inspect the input and output
  * types of the type-level functions that you are piping together.
  */
-export type _$pipe<FX extends Kind.Kind[], X> = Kind._$compose<
-  List._$reverse<FX>,
-  X
->
+export type _$pipe<T extends Kind.Kind[], X> = T extends [
+  infer Head extends Kind.Kind,
+  ...infer Tail extends Kind.Kind[]
+]
+  ? [X] extends [never]
+    ? never
+    : _$pipe<Tail, $<Head, Type._$cast<X, Kind._$inputOf<Head>>>>
+  : X
 
-interface Pipe_T<FX extends Kind.Kind[]> extends Kind.Kind {
+export interface Pipe_T<FX extends Kind.Kind[]> extends Kind.Kind {
   f(
     x: Type._$cast<
       this[Kind._],
@@ -49,8 +53,8 @@ interface Pipe_T<FX extends Kind.Kind[]> extends Kind.Kind {
  * composes the functions in its input list from left to right, and
  * and applies the resulting type-level function to the second input type.
  *
- * @param {Kind.Kind[]} FX - a tuple of type-level functions
- * @param X - a type to which a `Kind` can be applied
+ * @template {Kind.Kind[]} FX - a tuple of type-level functions
+ * @template X - a type to which a `Kind` can be applied
  *
  * @see {@link Kind.Compose}
  * The functionality of `Pipe` is identical to `Kind.Compose`
@@ -79,3 +83,30 @@ export interface Pipe extends Kind.Kind {
     ? Pipe_T<typeof x>
     : never
 }
+
+/**
+ * Given a list of functions, pipe the functions together, applying them in
+ * order from left to right.
+ *
+ * @param {Kind.Kind[]} fx - A list of functions to pipe together.
+ * @param {InputOf<FX[0]>} x - The input to pipe through the functions.
+ *
+ * @example
+ * ```ts
+ * import { Kind, NaturalNumber } from "hkt-toolbelt";
+ *
+ * const result = Kind.pipe([
+ *   NaturalNumber.increment,
+ *   NaturalNumber.increment
+ * ])(0) // 2
+ * ```
+ */
+export const pipe = ((fx: Function.Function[]) => (input: unknown) => {
+  let value = input
+
+  for (const f of fx) {
+    value = f(value as never)
+  }
+
+  return value
+}) as Kind._$reify<Pipe>

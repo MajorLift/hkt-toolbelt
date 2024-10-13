@@ -1,4 +1,4 @@
-import { Type, Kind } from '..'
+import { Kind, Type } from '..'
 
 /**
  * `_$composablePair` is the internal implementation for the `ComposablePair`
@@ -11,7 +11,10 @@ import { Type, Kind } from '..'
  * composed with g, and we say that 'g is piped into f'. In other words,
  * composition is a right-to-left description.
  *
- * @param F - A tuple containing two kinds to check
+ * If the output type of B is unknown, then we can't determine if A can be
+ * composed with B. In this case, we optimistically return true.
+ *
+ * @template F - A tuple containing two kinds to check
  *
  * @returns Whether the kinds are composable
  *
@@ -24,8 +27,14 @@ import { Type, Kind } from '..'
  * Kind._$composablePair<[String.ToUpper, List.Reverse]>
  * ```
  */
-export type _$composablePair<F extends [Kind.Kind, Kind.Kind]> =
-  Kind._$outputOf<F[1]> extends Kind._$inputOf<F[0]> ? true : false
+export type _$composablePair<
+  F extends [Kind.Kind, Kind.Kind],
+  OUTPUT_OF = Kind._$outputOf<F[1]>
+> = unknown extends OUTPUT_OF
+  ? true
+  : OUTPUT_OF extends Kind._$inputOf<F[0]>
+    ? true
+    : false
 
 /**
  * `ComposablePair` checks if two kinds can be composed together.
@@ -37,7 +46,7 @@ export type _$composablePair<F extends [Kind.Kind, Kind.Kind]> =
  * composed with g, and we say that 'g is piped into f'. In other words,
  * composition is a right-to-left description.
  *
- * @param K - A tuple containing two kinds to check
+ * @template K - A tuple containing two kinds to check
  *
  * @returns Whether the kinds are composable
  *
