@@ -7,7 +7,8 @@
     "exclude": [
         "**/*.spec.ts",
     ],
-    "excludeNotDocumented": true,
+    "excludeNotDocumented": false,
+    "skipErrorChecking": true,
     "visibilityFilters": {
         "protected": false,
         "private": false,
