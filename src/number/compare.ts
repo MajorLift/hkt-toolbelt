@@ -42,17 +42,17 @@ type _$compare2<
   /**
    * The decimal part of the first number as a digit list.
    */
-  A_DEC extends
-    DigitList.DigitList = `${A}` extends `${string}.${infer DEC extends string}`
-    ? DigitList._$fromString2<DEC>
-    : [Digit.Zero],
+  A_DEC extends DigitList.DigitList =
+    `${A}` extends `${string}.${infer DEC extends string}`
+      ? DigitList._$fromString2<DEC>
+      : [Digit.Zero],
   /**
    * The decimal part of the second number as a digit list.
    */
-  B_DEC extends
-    DigitList.DigitList = `${B}` extends `${string}.${infer DEC extends string}`
-    ? DigitList._$fromString2<DEC>
-    : [Digit.Zero],
+  B_DEC extends DigitList.DigitList =
+    `${B}` extends `${string}.${infer DEC extends string}`
+      ? DigitList._$fromString2<DEC>
+      : [Digit.Zero],
   /**
    * The result of the comparison. This is 1 if `A` is greater than `B`, 0 if `A` is equal to `B`, and -1 if `A` is less than `B`.
    *
@@ -66,10 +66,10 @@ type _$compare2<
         : DigitList._$compare<A_INT, B_INT>
       : 1
     : B_SGN extends '+'
-    ? -1
-    : A_INT extends B_INT
-    ? _$decimalCompare<B_DEC, A_DEC>
-    : DigitList._$compare<B_INT, A_INT>
+      ? -1
+      : A_INT extends B_INT
+        ? _$decimalCompare<B_DEC, A_DEC>
+        : DigitList._$compare<B_INT, A_INT>
 > = RESULT
 
 type _$decimalCompare<
@@ -113,10 +113,10 @@ type _$decimalCompare<
       ? 0
       : -1
     : B extends []
-    ? 1
-    : COMP extends 0
-    ? _$decimalCompare<A_NEXT, B_NEXT>
-    : COMP
+      ? 1
+      : COMP extends 0
+        ? _$decimalCompare<A_NEXT, B_NEXT>
+        : COMP
 > = RESULT
 
 /**
@@ -125,8 +125,8 @@ type _$decimalCompare<
  * The result will be 1 if `A` is greater than `B`,
  * 0 if `A` is equal to `B`, and -1 if `A` is less than `B`.
  *
- * @param A - A number type.
- * @param B - A number type.
+ * @template A - A number type.
+ * @template B - A number type.
  *
  * @example
  * For example, we can use `_$compare` to compare two numbers.
@@ -164,8 +164,8 @@ interface Compare_T<X extends Number.Number> extends Kind.Kind {
  * The result will be 1 if `A` is greater than `B`,
  * 0 if `A` is equal to `B`, and -1 if `A` is less than `B`.
  *
- * @param A - A number type.
- * @param B - A number type.
+ * @template A - A number type.
+ * @template B - A number type.
  *
  * @example
  * For example, we can use `Compare` to compare two numbers.
@@ -180,3 +180,23 @@ interface Compare_T<X extends Number.Number> extends Kind.Kind {
 export interface Compare extends Kind.Kind {
   f(x: Type._$cast<this[Kind._], Number.Number>): Compare_T<typeof x>
 }
+
+/**
+ * Given two numbers, return their comparison result as a runtime value:
+ * - `1` if `a` is greater than `b`
+ * - `0` if `a` is equal to `b`
+ * - `-1` if `a` is less than `b`
+ *
+ * @param {number} a - The first number to compare.
+ * @param {number} b - The second number to compare.
+ *
+ * @example
+ * ```ts
+ * import { Number } from "hkt-toolbelt";
+ *
+ * const result = Number.compare(2)(3)
+ * //    ^? -1
+ * ```
+ */
+export const compare = ((a: number) => (b: number) =>
+  a > b ? 1 : a < b ? -1 : 0) as Kind._$reify<Number.Compare>

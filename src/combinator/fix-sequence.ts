@@ -1,4 +1,5 @@
-import { $, Type, Kind } from '..'
+import { $, Kind, Type, Function } from '..'
+import { deepEqual } from '../_internal/deepEqual'
 
 /**
  * _$fixSequence is a type-level function that generates a fixed-point sequence
@@ -122,6 +123,9 @@ interface FixSequence_T<KIND extends Kind.Kind> extends Kind.Kind {
  * next value in the sequence is the result of applying `KIND` to the previous
  * value, and so on, until the value reaches a fixed point.
  *
+ * @template {Kind} F - The kind for which the fixed-point sequence is generated.
+ * @template {InputOf<F>} X - The initial value of the fixed-point sequence.
+ *
  * A fixed point is reached when applying `KIND` to a value returns that same
  * value. Notably, this means that an infinite loop is possible if we do not
  * converge to a fixed point.
@@ -181,3 +185,38 @@ export interface FixSequence extends Kind.Kind {
     x: Type._$cast<this[Kind._], Kind.Kind>
   ): FixSequence_T<Type._$cast<this[Kind._], Kind.Kind>>
 }
+
+/**
+ * Given a reified higher-order type and a value, loop until a fixed point is found.
+ *
+ * @param {Kind.Kind} f - The kind for which the fixed-point sequence is calculated.
+ * @param {unknown} x - The initial value to start the loop with.
+ *
+ * @example
+ * ```ts
+ * import { Combinator, NaturalNumber } from "hkt-toolbelt";
+ *
+ * const myFcn = // decrement by 1 if above 0, otherwise return 0
+ *
+ * const result = Combinator.fixSequence(myFcn)(100)
+ * //    ^? 0
+ * ```
+ */
+export const fixSequence = ((f: Function.Function) => (x: unknown) => {
+  const state = [x]
+
+  let previousValue = undefined
+  let value = x
+
+  while (true) {
+    value = f(value as never)
+
+    if (deepEqual(value, previousValue)) {
+      return state
+    }
+
+    state.push(value)
+
+    previousValue = value
+  }
+}) as Kind._$reify<FixSequence>

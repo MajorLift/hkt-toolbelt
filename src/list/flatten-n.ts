@@ -21,24 +21,17 @@ type _$flattenShallow<
 /**
  * `_$flattenN` is a type-level function that flattens a tuple up to a specified depth level by recursively concatenating nested subtuple elements.
  *
- * @param T - The input tuple.
- * @param N - Natural number specifying the depth level by which a nested tuple should be flattened.
+ * @template T - The input tuple.
+ * @template N - Natural number specifying the depth level by which a nested tuple should be flattened.
  * If N is greater than or equal to the depth of the input tuple `T`, `T` will be flattened completely.
+ * @returns A single depth-level list of types.
  *
  * @example
- * ```ts
- * import { $, List } from 'hkt-toolbelt';
- *
  * type MyList = [0, [1, [2, [3, [4]]]]]
- *
  * type Result1 = List._$flattenN<MyList, 1> // [0, 1, [2, [3, [4]]]]
- *
  * type Result2 = List._$flattenN<MyList, 2> // [0, 1, 2, [3, [4]]]
- *
  * type Result3 = List._$flattenN<MyList, 4> // [0, 1, 2, 3, 4]
- *
  * type Result4 = List._$flattenN<MyList, 5> // [0, 1, 2, 3, 4]
- * ```
  */
 export type _$flattenN<
   T extends unknown[],
@@ -55,24 +48,17 @@ interface FlattenN_T<N extends Number.Number> extends Kind.Kind {
 /**
  * `FlattenN` is a type-level function that flattens a tuple up to a specified depth level by recursively concatenating nested subtuple elements.
  *
- * @param T - The input tuple.
- * @param N - Natural number specifying the depth level by which a nested tuple should be flattened.
+ * @template T - The input tuple.
+ * @template N - Natural number specifying the depth level by which a nested tuple should be flattened.
  * If N is greater than or equal to the depth of the input tuple `T`, `T` will be flattened completely.
+ * @returns A single depth-level list of types.
  *
  * @example
- * ```ts
- * import { $, List } from 'hkt-toolbelt';
- *
  * type MyList = [0, [1, [2, [3, [4]]]]]
- *
  * type Result1 = $<$<List.FlattenN, 1>, MyList> // [0, 1, [2, [3, [4]]]]
- *
  * type Result2 = $<$<List.FlattenN, 2>, MyList> // [0, 1, 2, [3, [4]]]
- *
  * type Result3 = $<$<List.FlattenN, 4>, MyList> // [0, 1, 2, 3, 4]
- *
  * type Result4 = $<$<List.FlattenN, 5>, MyList> // [0, 1, 2, 3, 4]
- * ```
  */
 export interface FlattenN extends Kind.Kind {
   f(x: Type._$cast<this[Kind._], Number.Number>): FlattenN_T<typeof x>

@@ -4,8 +4,8 @@ import { NaturalNumber, Type, Number, Kind } from '..'
  * `_$moduloBy` is a type-level function that takes in two natural number types,
  * `A` and `B`, and returns the remainder of `B` divided by `A`.
  *
- * @param A - The number to divide by to calculate the remainder.
- * @param B - The numerator.
+ * @template A - The number to divide by to calculate the remainder.
+ * @template B - The numerator.
  *
  * The parameters are reversed from `_$modulo`. This is useful for partial
  * application, i.e. to test divisibility.
@@ -21,7 +21,7 @@ export type _$moduloBy<
   B extends number
 > = NaturalNumber._$modulo<B, A>
 
-interface ModuloBy_T<A extends number> extends Kind.Kind {
+export interface ModuloBy_T<A extends number> extends Kind.Kind {
   f(
     x: Type._$cast<this[Kind._], number>
   ): Number._$isNatural<typeof x> extends true ? _$moduloBy<A, typeof x> : never
@@ -31,8 +31,8 @@ interface ModuloBy_T<A extends number> extends Kind.Kind {
  * `ModuloBy` is a type-level function that takes in two natural number types,
  * `A` and `B`, and returns the remainder of `B` divided by `A`.
  *
- * @param A - The number to divide by to calculate the remainder.
- * @param B - The numerator.
+ * @template A - The number to divide by to calculate the remainder.
+ * @template B - The numerator.
  *
  * The parameters are reversed from `Modulo`. This is useful for partial
  * application, i.e. to test divisibility.
@@ -55,3 +55,21 @@ interface ModuloBy_T<A extends number> extends Kind.Kind {
 export interface ModuloBy extends Kind.Kind {
   f(x: Type._$cast<this[Kind._], number>): ModuloBy_T<typeof x>
 }
+
+/**
+ * Given two natural numbers, return the remainder of the second divided by the
+ * first.
+ *
+ * @param {number} a - The denominator.
+ * @param {number} b - The numerator.
+ *
+ * @example
+ * ```ts
+ * import { NaturalNumber } from "hkt-toolbelt";
+ *
+ * const result = NaturalNumber.moduloBy(3)(10)
+ * //    ^? 1
+ * ```
+ */
+export const moduloBy = ((a: number) => (b: number) =>
+  b % a) as Kind._$reify<ModuloBy>

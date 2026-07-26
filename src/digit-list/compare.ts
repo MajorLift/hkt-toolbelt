@@ -78,16 +78,16 @@ type _$compare3<
   RESULT extends 1 | 0 | -1 = IS_SAME_LENGTH extends false
     ? _$compare3<A_LENGTH, B_LENGTH>
     : A extends []
-    ? B extends []
-      ? 0
-      : -1
-    : B extends []
-    ? 1
-    : BOTH_SINGLE_DIGIT extends true
-    ? COMP
-    : COMP extends 0
-    ? _$compare3<A_NEXT, B_NEXT>
-    : COMP
+      ? B extends []
+        ? 0
+        : -1
+      : B extends []
+        ? 1
+        : BOTH_SINGLE_DIGIT extends true
+          ? COMP
+          : COMP extends 0
+            ? _$compare3<A_NEXT, B_NEXT>
+            : COMP
 > = RESULT
 
 type _$compare2<
@@ -101,8 +101,8 @@ type _$compare2<
  * 1 if `A` is greater than `B`, 0 if `A` is equal to `B`, and -1 if `A` is
  * less than `B`.
  *
- * @param A - A digit list type.
- * @param B - A digit list type.
+ * @template A - A digit list type.
+ * @template B - A digit list type.
  *
  * @example
  * For example, we can use `_$compare` to compare two digit lists. In this
@@ -139,8 +139,8 @@ interface Compare_T<X extends DigitList.DigitList> extends Kind.Kind {
  * 1 if `A` is greater than `B`, 0 if `A` is equal to `B`, and -1 if `A` is
  * less than `B`.
  *
- * @param A - A digit list type.
- * @param B - A digit list type.
+ * @template A - A digit list type.
+ * @template B - A digit list type.
  *
  * @example
  *
